@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Mixer Langsung Buka</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1115;
+      color: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 { margin: 0 0 6px; font-size: 1.5rem; }
+    p.info {
+      margin: 0 0 20px;
+      color: #9ca3af;
+      font-size: 0.9rem;
+      text-align: center;
+      max-width: 720px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      width: 100%;
+      max-width: 820px;
+    }
+    .deck {
+      width: 380px;
+      background: #181c24;
+      border: 1px solid #2a3140;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .deck-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      background: #0f1115;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    button {
+      padding: 9px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #dc2626; }
+    button.btn-alt {
+      background: #2b3242;
+      font-size: 0.82rem;
+      padding: 6px 10px;
+    }
+    button.btn-alt:hover { background: #3b4459; }
+    iframe {
+      width: 100%;
+      height: 200px;
+      border: 0;
+      border-radius: 8px;
+      background: #000;
+    }
+    .slider-box {
+      background: #10131a;
+      border: 1px solid #242b38;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+    input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+    }
+    .note {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+    .cross-box {
+      margin-top: 20px;
+      width: 100%;
+      max-width: 780px;
+      background: #181c24;
+      border: 1px solid #2a3140;
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>YouTube Audio Mixer</h1>
+  <p class="info">
+    Dapat dibuka langsung dengan klik dua kali file ini. Masukkan link atau ID video YouTube lalu klik <strong>Muat</strong>. Jika muncul pesan tidak tersedia, pilih video lain yang mengizinkan pemutaran di luar YouTube.
+  </p>
+
+  <div class="grid">
+    <!-- DECK A -->
+    <div class="deck">
+      <div class="deck-top">
+        <span>CHANNEL A</span>
+        <button class="btn-alt" id="ytLinkA" onclick="openOriginal('A')">Buka di YouTube</button>
+      </div>
+      <div class="input-row">
+        <input id="srcA" type="text" value="jfKfPfyJRdk" placeholder="Link atau ID video YouTube">
+        <button onclick="loadChannel('A')">Muat</button>
+      </div>
+      <iframe id="playerA"
+        src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?rel=0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <div class="slider-box">
+        <div class="slider-head">
+          <span>Level Channel A</span>
+          <span id="outA">80%</span>
+        </div>
+        <input id="faderA" type="range" min="0" max="100" value="80" oninput="updateLevels()">
+        <div class="note">Sesuaikan volume halus di kontrol pemutar atau mixer audio perangkat Anda.</div>
+      </div>
+    </div>
+
+    <!-- DECK B -->
+    <div class="deck">
+      <div class="deck-top">
+        <span>CHANNEL B</span>
+        <button class="btn-alt" id="ytLinkB" onclick="openOriginal('B')">Buka di YouTube</button>
+      </div>
+      <div class="input-row">
+        <input id="srcB" type="text" value="5qap5aO4i9A" placeholder="Link atau ID video YouTube">
+        <button onclick="loadChannel('B')">Muat</button>
+      </div>
+      <iframe id="playerB"
+        src="https://www.youtube-nocookie.com/embed/5qap5aO4i9A?rel=0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <div class="slider-box">
+        <div class="slider-head">
+          <span>Level Channel B</span>
+          <span id="outB">80%</span>
+        </div>
+        <input id="faderB" type="range" min="0" max="100" value="80" oninput="updateLevels()">
+        <div class="note">Sesuaikan volume halus di kontrol pemutar atau mixer audio perangkat Anda.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cross-box">
+    <div class="slider-head">
+      <strong>◀ A</strong>
+      <strong>CROSSFADER</strong>
+      <strong>B ▶</strong>
+    </div>
+    <input id="crossfader" type="range" min="0" max="100" value="50" oninput="updateLevels()">
+    <div class="note" id="mixInfo">Seimbang (50/50) — geser ke kiri atau kanan untuk menentukan fokus kanal.</div>
+  </div>
+
+  <script>
+    const currentIds = { A: 'jfKfPfyJRdk', B: '5qap5aO4i9A' };
+
+    function parseVideoId(input) {
+      const val = input.trim();
+      const match = val.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      if (match) return match[1];
+      if (/^[A-Za-z0-9_-]{11}$/.test(val)) return val;
+      return null;
+    }
+
+    function loadChannel(ch) {
+      const raw = document.getElementById('src' + ch).value;
+      const id = parseVideoId(raw);
+      if (!id) {
+        alert('Format link atau ID YouTube tidak valid.');
+        return;
+      }
+      currentIds[ch] = id;
+      document.getElementById('player' + ch).src = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0';
+    }
+
+    function openOriginal(ch) {
+      const id = currentIds[ch];
+      window.open('https://www.youtube.com/watch?v=' + id, '_blank', 'noopener');
+    }
+
+    function updateLevels() {
+      const a = parseInt(document.getElementById('faderA').value, 10);
+      const b = parseInt(document.getElementById('faderB').value, 10);
+      const c = parseInt(document.getElementById('crossfader').value, 10);
+
+      const gainA = c <= 50 ? 1 : (100 - c) / 50;
+      const gainB = c >= 50 ? 1 : c / 50;
+
+      const levelA = Math.round(a * gainA);
+      const levelB = Math.round(b * gainB);
+
+      document.getElementById('outA').textContent = levelA + '%';
+      document.getElementById('outB').textContent = levelB + '%';
+
+      const info = document.getElementById('mixInfo');
+      if (c < 45) {
+        info.textContent = 'Fokus ke Channel A (' + levelA + '%) — turunkan atau bisukan volume pemutar Channel B.';
+      } else if (c > 55) {
+        info.textContent = 'Fokus ke Channel B (' + levelB + '%) — turunkan atau bisukan volume pemutar Channel A.';
+      } else {
+        info.textContent = 'Seimbang — Channel A: ' + levelA + '% | Channel B: ' + levelB + '%.';
+      }
+    }
+
+    updateLevels();
+  </script>
+</body>
+</html>
